@@ -1,30 +1,31 @@
-/**
- * @file main.c
- * @brief Point d'entrée du shell simple
- * @author 
- * @date 2025
- */
-
-#include <stdio.h>
 #include "../include/shell.h"
 #include "../include/typedef.h"
+#include "../include/error.h"
+#include "../include/executer.h"
+#include "../include/parser.h"
+#include "../include/history.h"
 
-int main(void) {
-    char line[MAX_LINE];
-    command_t cmd;
+int main(void)
+{
+    char       line[MAX_LINE];
+    sequence_t seq;
+while (1)
+{
+    print_prompt();
 
-    while (1) {
-        print_prompt();
-        if (!read_line(line, sizeof(line)))
-            break;
-        if (line[0] == '\0')
-            continue;
+    if (!read_line(line, sizeof(line)))
+        break;
 
-        int argc = parse_line(line, &cmd);
-        if (argc == 0)
-            continue;
+    if (line[0] == '\0')
+        continue;
 
-        execute_simple(&cmd);
-    }
+    history_append(line);
+
+    if (parse_command(line, &seq) < 0)
+        continue;
+
+    execute_command(&seq);
+}
+
     return 0;
 }
