@@ -1,0 +1,521 @@
+make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+# GNU Make 4.3
+# Built for x86_64-pc-linux-gnu
+# Copyright (C) 1988-2020 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+
+# Make data base, printed on Tue Dec  9 21:57:22 2025
+
+# Variables
+
+# makefile (from 'Makefile', line 8)
+OBJ = $(SRC:.c=.o)
+# environment
+GDK_BACKEND = x11
+# environment
+LC_ALL = C
+# makefile (from 'Makefile', line 7)
+SRC = src/main.c src/shell.c src/error.c src/parser.c src/executer.c src/built_in.c src/history.c 
+# environment
+GNOME_SHELL_SESSION_MODE = ubuntu
+# environment
+SSH_AGENT_LAUNCHER = gnome-keyring
+# environment
+FONTCONFIG_PATH = /etc/fonts
+# environment
+GJS_DEBUG_OUTPUT = stderr
+# environment
+SNAP_LAUNCHER_ARCH_TRIPLET = x86_64-linux-gnu
+# environment
+LC_NAME = fr_FR.UTF-8
+# environment
+LC_NUMERIC = fr_FR.UTF-8
+# environment
+VSCODE_CRASH_REPORTER_PROCESS_TYPE = extensionHost
+# environment
+VSCODE_CWD = /home/shamim
+# environment
+NVM_DIR = /home/shamim/.nvm
+# environment
+LC_ADDRESS = fr_FR.UTF-8
+# default
+MAKE_COMMAND := make
+# environment
+QT_ACCESSIBILITY = 1
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# environment
+SNAP_INSTANCE_NAME = code
+# environment
+GDK_PIXBUF_MODULEDIR = /snap/code/215/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# default
+.VARIABLES := 
+# environment
+PWD = /home/shamim/Desktop/projet_systeme/projet_minishell
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# environment
+LSCOLORS = Gxfxcxdxbxegedabagacad
+# environment
+XDG_DATA_DIRS = /home/shamim/snap/code/215/.local/share:/home/shamim/snap/code/215:/snap/code/215/usr/share:/home/shamim/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
+# environment
+SNAP_EUID = 1000
+# environment
+OLDPWD = /home/shamim
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# automatic
+%F = $(notdir $%)
+# environment
+NVM_INC = /home/shamim/.nvm/versions/node/v20.17.0/include/node
+# environment
+VSCODE_CODE_CACHE_PATH = /home/shamim/.config/Code/CachedData/bf9252a2fb45be6893dd8870c0bf37e2e1766d61
+# environment
+LANG = C
+# environment
+SPACESHIP_VERSION = 3.16.4
+# environment
+XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.MK20G3
+# default
+.LOADED := 
+# default
+.INCLUDE_DIRS = /usr/local/include /usr/include /usr/include
+# makefile
+MAKEFLAGS = pqrR
+# makefile
+CURDIR := /home/shamim/Desktop/projet_systeme/projet_minishell
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+# environment
+VSCODE_L10N_BUNDLE_LOCATION = 
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# environment
+MFLAGS = -pqrR
+# environment
+SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
+# default
+.SHELLFLAGS := -c
+# environment
+NVM_BIN = /home/shamim/.nvm/versions/node/v20.17.0/bin
+# environment
+WAYLAND_DISPLAY = wayland-0
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# environment
+XDG_SESSION_DESKTOP = ubuntu
+# makefile (from 'Makefile', line 1)
+MAKEFILE_LIST := Makefile
+# automatic
+@F = $(notdir $@)
+# environment
+ZSH = /home/shamim/.oh-my-zsh
+# environment
+VSCODE_PID = 42781
+# environment
+XDG_SESSION_TYPE = wayland
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# environment
+XDG_DATA_HOME = /home/shamim/snap/code/215/.local/share
+# environment
+SESSION_MANAGER = local/shamim:@/tmp/.ICE-unix/3006,unix/shamim:/tmp/.ICE-unix/3006
+# automatic
+*F = $(notdir $*)
+# environment
+CHROME_DESKTOP = code.desktop
+# environment
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# environment
+VSCODE_NLS_CONFIG = {"userLocale":"en-us","osLocale":"en-us","resolvedLanguage":"en","defaultMessagesFile":"/snap/code/215/usr/share/code/resources/app/out/nls.messages.json","locale":"en-us","availableLanguages":{}}
+# default
+MAKE_HOST := x86_64-pc-linux-gnu
+# environment
+GTK_PATH = /snap/code/215/usr/lib/x86_64-linux-gnu/gtk-3.0
+# environment
+GNOME_DESKTOP_SESSION_ID = this-is-deprecated
+# makefile
+SHELL = /bin/sh
+# default
+MAKECMDGOALS := all
+# environment
+XMODIFIERS = @im=ibus
+# environment
+GJS_DEBUG_TOPICS = JS ERROR;JS LOG
+# environment
+SHLVL = 0
+# environment
+MAKELEVEL := 0
+# default
+MAKE = $(MAKE_COMMAND)
+# environment
+SNAP_COOKIE = ZwoAe4LolLIM9pkKLnFceLFYwF4z7-yJCbCg4V8qlmWg3NsYslYk
+# environment
+PATH = /home/shamim/.nvm/versions/node/v20.17.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin
+# environment
+SPACESHIP_ROOT = /home/shamim/.oh-my-zsh/custom/themes/spaceship-prompt
+# default
+MAKEFILES := 
+# environment
+LC_MONETARY = fr_FR.UTF-8
+# automatic
+^F = $(notdir $^)
+# environment
+SNAP_USER_COMMON = /home/shamim/snap/code/common
+# environment
+LC_TIME = fr_FR.UTF-8
+# environment
+ 
+SNAP = /snap/code/215
+# environment
+APPLICATION_INSIGHTS_NO_STATSBEAT = true
+# environment
+INVOCATION_ID = a6d5013f992f4693bd76833f17720cd4
+# environment
+SNAP_REVISION = 215
+# environment
+SNAP_REAL_HOME = /home/shamim
+# environment
+FONTCONFIG_FILE = /etc/fonts/fonts.conf
+# environment
+USERNAME = shamim
+# environment
+GNOME_SETUP_DISPLAY = :1
+# environment
+LC_TELEPHONE = fr_FR.UTF-8
+# automatic
+?F = $(notdir $?)
+# environment
+GTK_IM_MODULE_FILE = /home/shamim/snap/code/common/.cache/immodules/immodules.cache
+# makefile (from 'Makefile', line 5)
+NAME = bin/my_shell
+# environment
+XDG_CURRENT_DESKTOP = Unity
+# automatic
++F = $(notdir $+)
+# environment
+LESS = -R
+# environment
+DESKTOP_SESSION = ubuntu
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
+# environment
+LOCPATH = /snap/code/215/usr/lib/locale
+# 'override' directive
+GNUMAKEFLAGS := 
+# environment
+XDG_DATA_DIRS_VSCODE_SNAP_ORIG = /home/shamim/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
+# environment
+LOGNAME = shamim
+# environment
+GIO_LAUNCHED_DESKTOP_FILE = /var/lib/snapd/desktop/applications/code_code.desktop
+# environment
+SNAP_ARCH = amd64
+# makefile
+.DEFAULT_GOAL := all
+# environment
+SYSTEMD_EXEC_PID = 3037
+# environment
+DISPLAY = :0
+# environment
+USER = shamim
+# environment
+GTK_MODULES = gail:atk-bridge
+# default
+MAKE_VERSION := 4.3
+# environment
+SNAP_DATA = /var/snap/code/215
+# environment
+SNAP_CONTEXT = ZwoAe4LolLIM9pkKLnFceLFYwF4z7-yJCbCg4V8qlmWg3NsYslYk
+# makefile (from 'Makefile', line 3)
+LDFLAGS = -fprofile-arcs -ftest-coverage
+# environment
+MANAGERPID = 2873
+# environment
+LC_MEASUREMENT = fr_FR.UTF-8
+# environment
+GIO_LAUNCHED_DESKTOP_FILE_PID = 42737
+# environment
+PAGER = most
+# environment
+_ = /snap/code/215/usr/share/code/code
+# environment
+LC_PAPER = fr_FR.UTF-8
+# environment
+XDG_RUNTIME_DIR = /run/user/1000
+# makefile (from 'Makefile', line 2)
+CFLAGS = -Wall -Wextra -g -fprofile-arcs -ftest-coverage -Iinclude
+# environment
+SNAP_UID = 1000
+# environment
+GDK_PIXBUF_MODULE_FILE = /home/shamim/snap/code/common/.cache/gdk-pixbuf-loaders.cache
+# environment
+GIO_MODULE_DIR = /home/shamim/snap/code/common/.cache/gio-modules
+# environment
+NVM_CD_FLAGS = -q
+# environment
+JOURNAL_STREAM = 8:23183
+# environment
+XDG_SESSION_CLASS = user
+# environment
+HOME = /home/shamim
+# environment
+QT_IM_MODULE = ibus
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# environment
+VSCODE_IPC_HOOK = /run/user/1000/vscode-8f5817dc-1.10-main.sock
+# environment
+GTK_EXE_PREFIX = /snap/code/215/usr
+# environment
+SNAP_NAME = code
+# environment
+GSETTINGS_SCHEMA_DIR = /home/shamim/snap/code/215/.local/share/glib-2.0/schemas
+# default
+.RECIPEPREFIX := 
+# automatic
+<F = $(notdir $<)
+# environment
+SNAP_VERSION = bf9252a2
+# default
+SUFFIXES := 
+# environment
+VSCODE_CLI = 1
+# environment
+ELECTRON_NO_ATTACH_CONSOLE = 1
+# environment
+SNAP_COMMON = /var/snap/code/common
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink load
+# makefile (from 'Makefile', line 1)
+CC = gcc
+# environment
+SNAP_USER_DATA = /home/shamim/snap/code/215
+# environment
+XDG_MENU_PREFIX = gnome-
+# environment
+VSCODE_ESM_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# environment
+GDMSESSION = ubuntu
+# environment
+LC_IDENTIFICATION = fr_FR.UTF-8
+# environment
+SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd/void
+# variable set hash-table stats:
+# Load=148/1024=14%, Rehash=0, Collisions=7/182=4%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# src (device 66309, inode 12456805): 25 files, no impossibilities so far.
+# . (device 66309, inode 12456835): 11 files, no impossibilities.
+
+# 36 files, no impossibilities in 2 directories.
+
+# Implicit Rules
+
+src/%.o: src/%.c
+#  recipe to execute (from 'Makefile', line 17):
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# 1 implicit rules, 0 (0.0%) terminal.
+# Files
+
+coverage: all
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 28):
+	./bin/my_shell <<EOF
+	ls
+	date
+	EOF
+	gcov src/*.c
+
+# Not a target:
+src/history.c:
+#  Implicit rule search has been done.
+#  Last modified 2025-11-30 15:13:52.485588043
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+src/executer.c:
+#  Implicit rule search has been done.
+ 
+#  Last modified 2025-12-09 21:29:39.140810543
+#  File has been updated.
+#  Successfully updated.
+
+bin/my_shell: src/main.o src/shell.o src/error.o src/parser.o src/executer.o src/built_in.o src/history.o
+#  Implicit rule search has not been done.
+#  Last modified 2025-12-09 21:56:31.750777049
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 13):
+	mkdir -p bin
+	$(CC) $(LDFLAGS) -o $(NAME) $(OBJ)
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2025-11-30 15:14:43.842470209
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+src/error.c:
+#  Implicit rule search has been done.
+#  Last modified 2025-11-29 23:43:21.882534835
+#  File has been updated.
+#  Successfully updated.
+
+clean:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 20):
+	rm -f $(OBJ) src/*.gcda src/*.gcno src/*.gcov *.gcda *.gcno *.gcov bin/my_shell
+
+# Not a target:
+src/parser.c:
+#  Implicit rule search has been done.
+#  Last modified 2025-12-07 16:27:07.266840573
+#  File has been updated.
+#  Successfully updated.
+
+src/shell.o: src/shell.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'shell'
+#  Last modified 2025-12-09 21:56:31.552802982
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 17):
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Not a target:
+src/main.c:
+#  Implicit rule search has been done.
+#  Last modified 2025-11-30 15:14:15.883534342
+#  File has been updated.
+#  Successfully updated.
+
+re: fclean all
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+src/built_in.o: src/built_in.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'built_in'
+#  Last modified 2025-12-09 21:56:31.700783598
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 17):
+	$(CC) $(CFLAGS) -c $< -o $@
+
+src/main.o: src/main.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'main'
+#  Last modified 2025-12-09 21:56:31.532805602
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 17):
+	$(CC) $(CFLAGS) -c $< -o $@
+
+src/error.o: src/error.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'error'
+#  Last modified 2025-12-09 21:56:31.576799839
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 17):
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+src/parser.o: src/parser.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'parser'
+#  Last modified 2025-12-09 21:56:31.611795255
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 17):
+	$(CC) $(CFLAGS) -c $< -o $@
+
+all: bin/my_shell
+#  Command line target.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Successfully updated.
+
+fclean: clean
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 23):
+	rm -f $(NAME)
+
+src/history.o: src/history.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'history'
+#  Last modified 2025-12-09 21:56:31.724780454
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 17):
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Not a target:
+src/shell.c:
+#  Implicit rule search has been done.
+#  Last modified 2025-11-30 11:24:55.855643036
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+src/built_in.c:
+#  Implicit rule search has been done.
+#  Last modified 2025-12-09 21:56:22.62398209
+#  File has been updated.
+#  Successfully updated.
+
+src/executer.o: src/executer.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'executer'
+#  Last modified 2025-12-09 21:56:31.662788575
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 17):
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# files hash-table stats:
+# Load=23/1024=2%, Rehash=0, Collisions=3/68=4%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 1 (0) / strings = 68 / storage = 689 B / avg = 10 B
+# current buf: size = 8162 B / used = 689 B / count = 68 / avg = 10 B
+
+# strcache performance: lookups = 93 / hit rate = 26%
+# hash-table stats:
+# Load=68/8192=1%, Rehash=0, Collisions=0/93=0%
+# Finished Make data base on Tue Dec  9 21:57:22 2025
+
+ 

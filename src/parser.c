@@ -16,6 +16,7 @@ int parse_command(char *input, sequence_t *seq)
         return -1;
     }
 
+    // initialisation
     memset(seq, 0, sizeof(*seq));
 
     int   cmd_index = 0;

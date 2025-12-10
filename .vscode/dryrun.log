@@ -1,0 +1,13 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/shamim/Desktop/projet_systeme/projet_minishell'
+gcc -Wall -Wextra -g -fprofile-arcs -ftest-coverage -Iinclude -c src/main.c -o src/main.o
+gcc -Wall -Wextra -g -fprofile-arcs -ftest-coverage -Iinclude -c src/shell.c -o src/shell.o
+gcc -Wall -Wextra -g -fprofile-arcs -ftest-coverage -Iinclude -c src/error.c -o src/error.o
+gcc -Wall -Wextra -g -fprofile-arcs -ftest-coverage -Iinclude -c src/parser.c -o src/parser.o
+gcc -Wall -Wextra -g -fprofile-arcs -ftest-coverage -Iinclude -c src/executer.c -o src/executer.o
+gcc -Wall -Wextra -g -fprofile-arcs -ftest-coverage -Iinclude -c src/built_in.c -o src/built_in.o
+gcc -Wall -Wextra -g -fprofile-arcs -ftest-coverage -Iinclude -c src/history.c -o src/history.o
+mkdir -p bin
+gcc -fprofile-arcs -ftest-coverage -o bin/my_shell src/main.o src/shell.o src/error.o src/parser.o src/executer.o src/built_in.o src/history.o
+make: Leaving directory '/home/shamim/Desktop/projet_systeme/projet_minishell'
+ 

@@ -8,6 +8,7 @@
 #include <errno.h>
 #include <string.h>
 #include <stdlib.h>
+#include <dirent.h>
 
 #include "../include/typedef.h"
 #include "../include/error.h"
@@ -22,9 +23,36 @@ int is_builtin(command_t *cmd)
 {
     if (!cmd || cmd->argc == 0 || cmd->argv[0] == NULL)
     return 0 ; 
-    return (strcmp(cmd->argv[0] , "cd") == 0  || strcmp(cmd->argv[0], "pwd") == 0 || strcmp(cmd->argv[0], "exit") == 0 || strcmp(cmd->argv[0], "echo") == 0);
+    return (strcmp(cmd->argv[0] , "cd") == 0  || strcmp(cmd->argv[0], "pwd") == 0 || strcmp(cmd->argv[0], "exit") == 0 || strcmp(cmd->argv[0], "echo") == 0 || strcmp(cmd->argv[0], "ls_mon_shell") == 0 );
 }
 
+
+static int builtin_ls(command_t *cmd)
+{
+    const char *path = ".";
+    DIR *dir;
+    struct dirent *entry;
+
+    if (cmd->argc >= 2)
+        path = cmd->argv[1];
+
+    dir = opendir(path);
+    if (!dir) {
+        print_sys_error("opendir");
+        return errno;
+    }
+
+    while ((entry = readdir(dir)) != NULL) {
+        if (strcmp(entry->d_name, ".") == 0 ||
+            strcmp(entry->d_name, "..") == 0)
+            continue;
+
+        printf("%s  ", entry->d_name);
+    }
+    printf("\n");
+    closedir(dir);
+    return 0;
+}
 
 
 
@@ -75,7 +103,7 @@ static int builtin_pwd(command_t *cmd)
 {
     char cwd[PATH_MAX];
 
-    (void)cmd; /* pas utilisé */
+    (void)cmd; 
 
     if (!getcwd(cwd, sizeof(cwd))) {
         print_sys_error("getcwd");
@@ -114,6 +142,9 @@ int execute_builtin(command_t *cmd)
     }
     if (strcmp(cmd->argv[0], "echo") == 0)
         return builtin_echo(cmd);
+    if (strcmp(cmd->argv[0], "ls_mon_shell") == 0)
+
+    return builtin_ls(cmd); 
 
     return 0;
 }
