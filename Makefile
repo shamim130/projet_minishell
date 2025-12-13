@@ -17,7 +17,7 @@ src/%.o: src/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJ) src/*.gcda src/*.gcno src/*.gcov *.gcda *.gcno *.gcov bin/my_shell
+	rm -f $(OBJ) src/*.gcda src/*.gcno src/*.gcov *.gcda *.gcno *.gcov bin/my_shell 
 
 fclean: clean
 	rm -f $(NAME)

@@ -1,6 +1,11 @@
 /**
  * @file executer.c
- * @brief Implémentation des fonctions d'exécution des commandes
+ * @author Shamim SEDGHI , Mathys
+ * @brief execution of commands and handling of processes
+ * @date december 2025
+ *
+ * @copyright Copyright (c) 2025
+ *
  */
 
 #include <unistd.h>
@@ -9,58 +14,75 @@
 #include <errno.h>
 #include <stdio.h>
 #include <fcntl.h>
-#include <string.h>  
+#include <string.h>
 #include "../include/typedef.h"
 #include "../include/error.h"
 #include "../include/executer.h"
 #include "../include/built_in.h"
 
+/**
+ * @brief Execute a single command, handling redirections and heredocs
+ *
+ * @param cmd The command to execute
+ * @return (int) The exit status of the command
+ */
 static int execute_one_command(command_t *cmd)
 {
     pid_t pid;
-    int   status;
-    int   pipefd[2] = { -1, -1 };
+    int status;
+    int pipefd[2] = {-1, -1};
 
     if (!cmd || cmd->argc == 0 || cmd->argv[0] == NULL)
         return 0;
 
-    /* si heredoc, on prépare un pipe */
-    if (cmd->heredoc_delim) {
-        if (pipe(pipefd) == -1) {
+    // if heredoc is specified, create a pipe
+    if (cmd->heredoc_delim)
+    {
+        if (pipe(pipefd) == -1)
+        {
             print_sys_error("pipe");
             return errno;
         }
     }
 
     pid = fork();
-    if (pid == -1) {
+    if (pid == -1)
+    {
         print_sys_error("fork");
-        if (pipefd[0] != -1) {
+        if (pipefd[0] != -1)
+        {
             close(pipefd[0]);
             close(pipefd[1]);
         }
         return errno;
     }
 
-    if (pid == 0) {
-        /* fils */
+    // child
+    if (pid == 0)
+    {
 
-        if (cmd->heredoc_delim) {
-            /* lire depuis l'extrémité lecture du pipe */
+        if (cmd->heredoc_delim)
+        {
+            // read from the lecture end of the pipe
             close(pipefd[1]);
-            if (dup2(pipefd[0], STDIN_FILENO) == -1) {
+            if (dup2(pipefd[0], STDIN_FILENO) == -1)
+            {
                 print_sys_error("dup2 heredoc");
                 close(pipefd[0]);
                 exit(EXIT_FAILURE);
             }
             close(pipefd[0]);
-        } else if (cmd->input_file) {
+        }
+        else if (cmd->input_file)
+        {
             int fd_in = open(cmd->input_file, O_RDONLY);
-            if (fd_in == -1) {
+            if (fd_in == -1)
+            {
                 print_sys_error("open input");
                 exit(EXIT_FAILURE);
             }
-            if (dup2(fd_in, STDIN_FILENO) == -1) {
+            if (dup2(fd_in, STDIN_FILENO) == -1)
+            {
                 print_sys_error("dup2 input");
                 close(fd_in);
                 exit(EXIT_FAILURE);
@@ -68,15 +90,19 @@ static int execute_one_command(command_t *cmd)
             close(fd_in);
         }
 
-        if (cmd->output_file) {
+        // redirection of the output if specified
+        if (cmd->output_file)
+        {
             int flags = O_WRONLY | O_CREAT |
                         (cmd->append_output ? O_APPEND : O_TRUNC);
             int fd_out = open(cmd->output_file, flags, 0644);
-            if (fd_out == -1) {
+            if (fd_out == -1)
+            {
                 print_sys_error("open output");
                 exit(EXIT_FAILURE);
             }
-            if (dup2(fd_out, STDOUT_FILENO) == -1) {
+            if (dup2(fd_out, STDOUT_FILENO) == -1)
+            {
                 print_sys_error("dup2 output");
                 close(fd_out);
                 exit(EXIT_FAILURE);
@@ -89,14 +115,15 @@ static int execute_one_command(command_t *cmd)
         exit(EXIT_FAILURE);
     }
 
-    /* parent */
-
-    if (cmd->heredoc_delim) {
+    // parent
+    if (cmd->heredoc_delim)
+    {
         char buffer[1024];
 
-        close(pipefd[0]); /* on n’utilise que l’écriture ici */
+        close(pipefd[0]); // using just the write end of the pipe
 
-        while (1) {
+        while (1)
+        {
             if (!fgets(buffer, sizeof(buffer), stdin))
                 break;
             buffer[strcspn(buffer, "\n")] = '\0';
@@ -113,11 +140,14 @@ static int execute_one_command(command_t *cmd)
         close(pipefd[1]);
     }
 
-    if (cmd->background) {
+    if (cmd->background)
+    {
         return 0;
     }
 
-    if (waitpid(pid, &status, 0) == -1) {
+    // wait for the child process to finish
+    if (waitpid(pid, &status, 0) == -1)
+    {
         print_sys_error("waitpid");
         return errno;
     }
@@ -127,35 +157,48 @@ static int execute_one_command(command_t *cmd)
     return 1;
 }
 
+/**
+ * @brief Execute two commands connected by a pipe
+ *
+ * @param left The left command
+ * @param right The right command
+ * @return (int) The exit status of the right command
+ */
 static int execute_pipe(command_t *left, command_t *right)
 {
-    int   pipefd[2];
+    int pipefd[2];
     pid_t pid1, pid2;
-    int   status1 = 0, status2 = 0;
+    int status1 = 0, status2 = 0;
 
-    if (pipe(pipefd) == -1) {
+    if (pipe(pipefd) == -1)
+    {
         print_sys_error("pipe");
         return errno;
     }
 
-    /* premier processus: left | */
+    // first processus: left |
     pid1 = fork();
-    if (pid1 == -1) {
+    if (pid1 == -1)
+    {
         print_sys_error("fork");
         close(pipefd[0]);
         close(pipefd[1]);
         return errno;
     }
 
-    if (pid1 == 0) {
-        /* redirection d'entrée éventuelle pour la commande de gauche: cat < in.txt | ... */
-        if (left->input_file) {
+    if (pid1 == 0)
+    {
+        // redirection of the input if specified for the left command: cat < in.txt |
+        if (left->input_file)
+        {
             int fd_in = open(left->input_file, O_RDONLY);
-            if (fd_in == -1) {
+            if (fd_in == -1)
+            {
                 print_sys_error("open input");
                 exit(EXIT_FAILURE);
             }
-            if (dup2(fd_in, STDIN_FILENO) == -1) {
+            if (dup2(fd_in, STDIN_FILENO) == -1)
+            {
                 print_sys_error("dup2 input");
                 close(fd_in);
                 exit(EXIT_FAILURE);
@@ -163,8 +206,9 @@ static int execute_pipe(command_t *left, command_t *right)
             close(fd_in);
         }
 
-        /* la sortie va dans le pipe */
-        if (dup2(pipefd[1], STDOUT_FILENO) == -1) {
+        // output goes to the pipe
+        if (dup2(pipefd[1], STDOUT_FILENO) == -1)
+        {
             print_sys_error("dup2 pipe left");
             exit(EXIT_FAILURE);
         }
@@ -177,18 +221,21 @@ static int execute_pipe(command_t *left, command_t *right)
         exit(EXIT_FAILURE);
     }
 
-    /* second processus: ... | right */
+    // second processus: ... | right
     pid2 = fork();
-    if (pid2 == -1) {
+    if (pid2 == -1)
+    {
         print_sys_error("fork");
         close(pipefd[0]);
         close(pipefd[1]);
         return errno;
     }
 
-    if (pid2 == 0) {
-        /* l'entrée vient du pipe */
-        if (dup2(pipefd[0], STDIN_FILENO) == -1) {
+    if (pid2 == 0)
+    {
+        // input comes from the pipe
+        if (dup2(pipefd[0], STDIN_FILENO) == -1)
+        {
             print_sys_error("dup2 pipe right");
             exit(EXIT_FAILURE);
         }
@@ -196,16 +243,19 @@ static int execute_pipe(command_t *left, command_t *right)
         close(pipefd[0]);
         close(pipefd[1]);
 
-        /* redirection de sortie éventuelle pour la commande de droite: ... | cat > out.txt */
-        if (right->output_file) {
+        // redirection of the output if specified for the right command: ... | grep > out.txt
+        if (right->output_file)
+        {
             int flags = O_WRONLY | O_CREAT |
                         (right->append_output ? O_APPEND : O_TRUNC);
             int fd_out = open(right->output_file, flags, 0644);
-            if (fd_out == -1) {
+            if (fd_out == -1)
+            {
                 print_sys_error("open output");
                 exit(EXIT_FAILURE);
             }
-            if (dup2(fd_out, STDOUT_FILENO) == -1) {
+            if (dup2(fd_out, STDOUT_FILENO) == -1)
+            {
                 print_sys_error("dup2 output");
                 close(fd_out);
                 exit(EXIT_FAILURE);
@@ -229,25 +279,27 @@ static int execute_pipe(command_t *left, command_t *right)
     return 1;
 }
 
-
 int execute_command(sequence_t *seq)
 {
-   
-         int last_status = 0;
+
+    int last_status = 0;
 
     if (!seq || seq->count <= 0)
         return 0;
 
-    /* builtin simple: seulement cd tout seul, sans pipes ni && || */
+    // if single built-in command, execute directly
     if (seq->count == 1 &&
         seq->commands[0].argc > 0 &&
-        is_builtin(&seq->commands[0])) {
+        is_builtin(&seq->commands[0]))
+    {
         return execute_builtin(&seq->commands[0]);
     }
 
-    for (int i = 0; i < seq->count; ++i) {
+    for (int i = 0; i < seq->count; ++i)
+    {
 
-        if (i > 0) {
+        if (i > 0)
+        {
             logical_operator_t op_prev = seq->operators[i - 1];
 
             if (op_prev == LOGICAL_AND && last_status != 0)
@@ -257,14 +309,17 @@ int execute_command(sequence_t *seq)
         }
 
         logical_operator_t op = (i < seq->count - 1)
-                                ? seq->operators[i]
-                                : LOGICAL_NONE;
+                                    ? seq->operators[i]
+                                    : LOGICAL_NONE;
 
-        if (op == LOGICAL_PIPE && i + 1 < seq->count) {
+        if (op == LOGICAL_PIPE && i + 1 < seq->count)
+        {
             last_status = execute_pipe(&seq->commands[i],
                                        &seq->commands[i + 1]);
-            i++; /* on saute la commande suivante, déjà exécutée avec le pipe */
-        } else {
+            i++; // skip the next command as it's part of the pipe
+        }
+        else
+        {
             last_status = execute_one_command(&seq->commands[i]);
         }
     }

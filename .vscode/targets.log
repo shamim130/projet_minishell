@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Tue Dec  9 21:57:22 2025
+# Make data base, printed on Sat Dec 13 11:33:47 2025
 
 # Variables
 
@@ -43,6 +43,8 @@ LC_ADDRESS = fr_FR.UTF-8
 # default
 MAKE_COMMAND := make
 # environment
+APPLICATIONINSIGHTS_CONFIGURATION_CONTENT = {}
+# environment
 QT_ACCESSIBILITY = 1
 # automatic
 @D = $(patsubst %/,%,$(dir $@))
@@ -56,6 +58,7 @@ VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 .VARIABLES := 
 # environment
 PWD = /home/shamim/Desktop/projet_systeme/projet_minishell
+ 
 # automatic
 %D = $(patsubst %/,%,$(dir $%))
 # environment
@@ -64,8 +67,6 @@ LSCOLORS = Gxfxcxdxbxegedabagacad
 XDG_DATA_DIRS = /home/shamim/snap/code/215/.local/share:/home/shamim/snap/code/215:/snap/code/215/usr/share:/home/shamim/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
 # environment
 SNAP_EUID = 1000
-# environment
-OLDPWD = /home/shamim
 # automatic
 ^D = $(patsubst %/,%,$(dir $^))
 # automatic
@@ -79,7 +80,7 @@ LANG = C
 # environment
 SPACESHIP_VERSION = 3.16.4
 # environment
-XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.MK20G3
+XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.S759G3
 # default
 .LOADED := 
 # default
@@ -89,7 +90,7 @@ MAKEFLAGS = pqrR
 # makefile
 CURDIR := /home/shamim/Desktop/projet_systeme/projet_minishell
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
 # environment
 VSCODE_L10N_BUNDLE_LOCATION = 
 # automatic
@@ -115,7 +116,7 @@ MAKEFILE_LIST := Makefile
 # environment
 ZSH = /home/shamim/.oh-my-zsh
 # environment
-VSCODE_PID = 42781
+VSCODE_PID = 4822
 # environment
 XDG_SESSION_TYPE = wayland
 # automatic
@@ -123,7 +124,7 @@ XDG_SESSION_TYPE = wayland
 # environment
 XDG_DATA_HOME = /home/shamim/snap/code/215/.local/share
 # environment
-SESSION_MANAGER = local/shamim:@/tmp/.ICE-unix/3006,unix/shamim:/tmp/.ICE-unix/3006
+SESSION_MANAGER = local/shamim:@/tmp/.ICE-unix/3026,unix/shamim:/tmp/.ICE-unix/3026
 # automatic
 *F = $(notdir $*)
 # environment
@@ -171,12 +172,11 @@ SNAP_USER_COMMON = /home/shamim/snap/code/common
 # environment
 LC_TIME = fr_FR.UTF-8
 # environment
- 
 SNAP = /snap/code/215
 # environment
 APPLICATION_INSIGHTS_NO_STATSBEAT = true
 # environment
-INVOCATION_ID = a6d5013f992f4693bd76833f17720cd4
+INVOCATION_ID = 469606478c89422b940da49908deb33c
 # environment
 SNAP_REVISION = 215
 # environment
@@ -220,7 +220,7 @@ SNAP_ARCH = amd64
 # makefile
 .DEFAULT_GOAL := all
 # environment
-SYSTEMD_EXEC_PID = 3037
+SYSTEMD_EXEC_PID = 3059
 # environment
 DISPLAY = :0
 # environment
@@ -236,11 +236,11 @@ SNAP_CONTEXT = ZwoAe4LolLIM9pkKLnFceLFYwF4z7-yJCbCg4V8qlmWg3NsYslYk
 # makefile (from 'Makefile', line 3)
 LDFLAGS = -fprofile-arcs -ftest-coverage
 # environment
-MANAGERPID = 2873
+MANAGERPID = 2892
 # environment
 LC_MEASUREMENT = fr_FR.UTF-8
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 42737
+GIO_LAUNCHED_DESKTOP_FILE_PID = 4774
 # environment
 PAGER = most
 # environment
@@ -260,7 +260,9 @@ GIO_MODULE_DIR = /home/shamim/snap/code/common/.cache/gio-modules
 # environment
 NVM_CD_FLAGS = -q
 # environment
-JOURNAL_STREAM = 8:23183
+JOURNAL_STREAM = 8:22935
+# environment
+VSCODE_DOTNET_INSTALL_TOOL_ORIGINAL_HOME = /home/shamim
 # environment
 XDG_SESSION_CLASS = user
 # environment
@@ -297,6 +299,7 @@ SNAP_COMMON = /var/snap/code/common
 CC = gcc
 # environment
 SNAP_USER_DATA = /home/shamim/snap/code/215
+ 
 # environment
 XDG_MENU_PREFIX = gnome-
 # environment
@@ -308,7 +311,7 @@ LC_IDENTIFICATION = fr_FR.UTF-8
 # environment
 SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd/void
 # variable set hash-table stats:
-# Load=148/1024=14%, Rehash=0, Collisions=7/182=4%
+# Load=149/1024=15%, Rehash=0, Collisions=7/183=4%
 
 # Pattern-specific Variable Values
 
@@ -316,10 +319,10 @@ SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd
 
 # Directories
 
-# src (device 66309, inode 12456805): 25 files, no impossibilities so far.
-# . (device 66309, inode 12456835): 11 files, no impossibilities.
+# src (device 66309, inode 12456805): 19 files, no impossibilities so far.
+# . (device 66309, inode 12456835): 10 files, no impossibilities.
 
-# 36 files, no impossibilities in 2 directories.
+# 29 files, no impossibilities in 2 directories.
 
 # Implicit Rules
 
@@ -344,21 +347,20 @@ coverage: all
 # Not a target:
 src/history.c:
 #  Implicit rule search has been done.
-#  Last modified 2025-11-30 15:13:52.485588043
+#  Last modified 2025-12-13 11:29:50.683328374
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 src/executer.c:
 #  Implicit rule search has been done.
- 
 #  Last modified 2025-12-09 21:29:39.140810543
 #  File has been updated.
 #  Successfully updated.
 
 bin/my_shell: src/main.o src/shell.o src/error.o src/parser.o src/executer.o src/built_in.o src/history.o
 #  Implicit rule search has not been done.
-#  Last modified 2025-12-09 21:56:31.750777049
+#  Last modified 2025-12-13 11:33:23.232748362
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 13):
@@ -368,7 +370,7 @@ bin/my_shell: src/main.o src/shell.o src/error.o src/parser.o src/executer.o src
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2025-11-30 15:14:43.842470209
+#  Last modified 2025-12-13 11:33:21.249781782
 #  File has been updated.
 #  Successfully updated.
 
@@ -384,7 +386,7 @@ clean:
 #  Modification time never checked.
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 20):
-	rm -f $(OBJ) src/*.gcda src/*.gcno src/*.gcov *.gcda *.gcno *.gcov bin/my_shell
+	rm -f $(OBJ) src/*.gcda src/*.gcno src/*.gcov *.gcda *.gcno *.gcov bin/my_shell 
 
 # Not a target:
 src/parser.c:
@@ -396,7 +398,7 @@ src/parser.c:
 src/shell.o: src/shell.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: 'shell'
-#  Last modified 2025-12-09 21:56:31.552802982
+#  Last modified 2025-12-13 11:32:50.317303061
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 17):
@@ -417,7 +419,7 @@ re: fclean all
 src/built_in.o: src/built_in.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: 'built_in'
-#  Last modified 2025-12-09 21:56:31.700783598
+#  Last modified 2025-12-13 11:32:50.465300566
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 17):
@@ -426,7 +428,7 @@ src/built_in.o: src/built_in.c
 src/main.o: src/main.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: 'main'
-#  Last modified 2025-12-09 21:56:31.532805602
+#  Last modified 2025-12-13 11:32:50.297303397
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 17):
@@ -435,7 +437,7 @@ src/main.o: src/main.c
 src/error.o: src/error.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: 'error'
-#  Last modified 2025-12-09 21:56:31.576799839
+#  Last modified 2025-12-13 11:32:50.340302673
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 17):
@@ -450,7 +452,7 @@ src/error.o: src/error.c
 src/parser.o: src/parser.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: 'parser'
-#  Last modified 2025-12-09 21:56:31.611795255
+#  Last modified 2025-12-13 11:32:50.377302049
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 17):
@@ -473,7 +475,7 @@ fclean: clean
 src/history.o: src/history.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: 'history'
-#  Last modified 2025-12-09 21:56:31.724780454
+#  Last modified 2025-12-13 11:32:50.487300196
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 17):
@@ -489,14 +491,15 @@ src/shell.c:
 # Not a target:
 src/built_in.c:
 #  Implicit rule search has been done.
-#  Last modified 2025-12-09 21:56:22.62398209
+#  Last modified 2025-12-13 11:00:56.730949782
 #  File has been updated.
 #  Successfully updated.
 
 src/executer.o: src/executer.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: 'executer'
-#  Last modified 2025-12-09 21:56:31.662788575
+ 
+#  Last modified 2025-12-13 11:32:50.425301241
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 17):
@@ -510,12 +513,12 @@ src/executer.o: src/executer.c
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 68 / storage = 689 B / avg = 10 B
-# current buf: size = 8162 B / used = 689 B / count = 68 / avg = 10 B
+# strcache buffers: 1 (0) / strings = 61 / storage = 599 B / avg = 9 B
+# current buf: size = 8162 B / used = 599 B / count = 61 / avg = 9 B
 
-# strcache performance: lookups = 93 / hit rate = 26%
+# strcache performance: lookups = 86 / hit rate = 29%
 # hash-table stats:
-# Load=68/8192=1%, Rehash=0, Collisions=0/93=0%
-# Finished Make data base on Tue Dec  9 21:57:22 2025
+# Load=61/8192=1%, Rehash=0, Collisions=0/86=0%
+# Finished Make data base on Sat Dec 13 11:33:47 2025
 
  

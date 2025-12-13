@@ -1,8 +1,12 @@
 /**
  * @file shell.c
- * @brief Implémentation des fonctions principales du shell
+ * @author Shamim SEDGHI , Mathys
+ * @brief  The main shell functions
+ * @date december 2025
+ *
+ * @copyright Copyright (c) 2025
+ *
  */
-
 #include <stdio.h>
 #include <string.h>
 #include "../include/shell.h"
@@ -16,7 +20,8 @@ void print_prompt(void)
 
 int read_line(char *buffer, int size)
 {
-    if (!fgets(buffer, size, stdin)) {
+    if (!fgets(buffer, size, stdin))
+    {
         if (ferror(stdin))
             print_sys_error("fgets");
         return 0;
