@@ -3,6 +3,9 @@
  * @author Shamim SEDGHI , Mathys
  * @brief function prototypes for alias handling
  * @date december 2025
+ * 
+ * @copyright Copyright (c) 2025
+ * 
  */
 
 #include <string.h>

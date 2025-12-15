@@ -1,3 +1,16 @@
+/**
+ * @file alias.c
+ * @author Shamim SEDGHI , Mathys
+ * @brief implementation of alias handling functions
+ * @date december 2025
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
+
+
+
 #include <stdio.h>
 #include <string.h>
 #include "../include/alias.h"
