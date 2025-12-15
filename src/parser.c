@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
+#include <stdlib.h>
 #include "../include/typedef.h"
 #include "../include/parser.h"
 
@@ -143,14 +144,33 @@ int parse_command(char *input, sequence_t *seq)
         // regular argument
         else
         {
+            /* FM06 : création variable d'environnement VAR=valeur */
+            char *eq = strchr(token, '=');
+            if (eq && eq != token)
+            {
+                *eq = '\0';
+                setenv(token, eq + 1, 1);
+                token = strtok_r(NULL, " \t", &saveptr);
+                continue;
+            }
+            
+            if (token[0] == '$')
+            {
+                char *val = getenv(token + 1);
+                if (val)
+                    token = val;
+            }
+
             if (arg_index >= MAX_ARGS - 1)
             {
                 fprintf(stderr, "Erreur: trop d'arguments\n");
                 errno = E2BIG;
                 return -1;
             }
-            seq->commands[cmd_index].argv[arg_index++] = token;
-        }
+
+    seq->commands[cmd_index].argv[arg_index++] = token;
+}
+
 
         token = strtok_r(NULL, " \t", &saveptr);
     }

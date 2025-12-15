@@ -13,11 +13,26 @@
 #include "../include/executer.h"
 #include "../include/parser.h"
 #include "../include/history.h"
+#include <string.h>
 
-int main(void)
+int main(int argc, char *argv[])
 {
     char line[MAX_LINE];
     sequence_t seq;
+
+    /* FM06 MODE BATCH */
+    if (argc == 3 && strcmp(argv[1], "-c") == 0)
+    {
+        strncpy(line, argv[2], sizeof(line) - 1);
+        line[sizeof(line) - 1] = '\0';
+
+        if (parse_command(line, &seq) == 0)
+            execute_command(&seq);
+
+        return 0;
+    }
+
+    /* MODE INTERACTIF */
     while (1)
     {
         print_prompt();
