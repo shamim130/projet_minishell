@@ -19,6 +19,8 @@
 #include "../include/error.h"
 #include "../include/executer.h"
 #include "../include/built_in.h"
+#include "../include/alias.h"
+#include "../include/parser.h"
 
 /**
  * @brief Execute a single command, handling redirections and heredocs
@@ -65,12 +67,7 @@ static int execute_one_command(command_t *cmd)
         {
             // read from the lecture end of the pipe
             close(pipefd[1]);
-            if (dup2(pipefd[0], STDIN_FILENO) == -1)
-            {
-                print_sys_error("dup2 heredoc");
-                close(pipefd[0]);
-                exit(EXIT_FAILURE);
-            }
+            dup2(pipefd[0], STDIN_FILENO);
             close(pipefd[0]);
         }
         else if (cmd->input_file)
@@ -81,12 +78,7 @@ static int execute_one_command(command_t *cmd)
                 print_sys_error("open input");
                 exit(EXIT_FAILURE);
             }
-            if (dup2(fd_in, STDIN_FILENO) == -1)
-            {
-                print_sys_error("dup2 input");
-                close(fd_in);
-                exit(EXIT_FAILURE);
-            }
+            dup2(fd_in, STDIN_FILENO);
             close(fd_in);
         }
 
@@ -101,16 +93,35 @@ static int execute_one_command(command_t *cmd)
                 print_sys_error("open output");
                 exit(EXIT_FAILURE);
             }
-            if (dup2(fd_out, STDOUT_FILENO) == -1)
-            {
-                print_sys_error("dup2 output");
-                close(fd_out);
-                exit(EXIT_FAILURE);
-            }
+            dup2(fd_out, STDOUT_FILENO);
             close(fd_out);
         }
 
-        execvp(cmd->argv[0], cmd->argv);
+        /* ========== ALIAS EXPANSION ========== */
+        const char *alias = alias_get(cmd->argv[0]);
+        if (alias)
+        {
+            char buffer[MAX_LINE];
+
+            // Reconstruire la ligne complète
+            snprintf(buffer, sizeof(buffer), "%s", alias);
+            for (int i = 1; i < cmd->argc; i++)
+            {
+                strncat(buffer, " ", sizeof(buffer) - strlen(buffer) - 1);
+                strncat(buffer, cmd->argv[i], sizeof(buffer) - strlen(buffer) - 1);
+            }
+
+            sequence_t alias_seq;
+            if (parse_command(buffer, &alias_seq) == 0)
+                exit(execute_command(&alias_seq));
+
+            exit(EXIT_FAILURE);
+        }
+        else
+        {
+            execvp(cmd->argv[0], cmd->argv);
+        }
+
         print_sys_error("execvp");
         exit(EXIT_FAILURE);
     }
@@ -119,31 +130,22 @@ static int execute_one_command(command_t *cmd)
     if (cmd->heredoc_delim)
     {
         char buffer[1024];
+        close(pipefd[0]);
 
-        close(pipefd[0]); // using just the write end of the pipe
-
-        while (1)
+        while (fgets(buffer, sizeof(buffer), stdin))
         {
-            if (!fgets(buffer, sizeof(buffer), stdin))
-                break;
             buffer[strcspn(buffer, "\n")] = '\0';
-
             if (strcmp(buffer, cmd->heredoc_delim) == 0)
                 break;
 
-            size_t len = strlen(buffer);
-            if (write(pipefd[1], buffer, len) == -1)
-                break;
-            if (write(pipefd[1], "\n", 1) == -1)
-                break;
+            write(pipefd[1], buffer, strlen(buffer));
+            write(pipefd[1], "\n", 1);
         }
         close(pipefd[1]);
     }
 
     if (cmd->background)
-    {
         return 0;
-    }
 
     // wait for the child process to finish
     if (waitpid(pid, &status, 0) == -1)
@@ -168,7 +170,7 @@ static int execute_pipe(command_t *left, command_t *right)
 {
     int pipefd[2];
     pid_t pid1, pid2;
-    int status1 = 0, status2 = 0;
+    int status2 = 0;
 
     if (pipe(pipefd) == -1)
     {
@@ -176,93 +178,23 @@ static int execute_pipe(command_t *left, command_t *right)
         return errno;
     }
 
-    // first processus: left |
-    pid1 = fork();
-    if (pid1 == -1)
+    /* ---------- LEFT ---------- */
+    if ((pid1 = fork()) == 0)
     {
-        print_sys_error("fork");
+        dup2(pipefd[1], STDOUT_FILENO);
         close(pipefd[0]);
         close(pipefd[1]);
-        return errno;
-    }
-
-    if (pid1 == 0)
-    {
-        // redirection of the input if specified for the left command: cat < in.txt |
-        if (left->input_file)
-        {
-            int fd_in = open(left->input_file, O_RDONLY);
-            if (fd_in == -1)
-            {
-                print_sys_error("open input");
-                exit(EXIT_FAILURE);
-            }
-            if (dup2(fd_in, STDIN_FILENO) == -1)
-            {
-                print_sys_error("dup2 input");
-                close(fd_in);
-                exit(EXIT_FAILURE);
-            }
-            close(fd_in);
-        }
-
-        // output goes to the pipe
-        if (dup2(pipefd[1], STDOUT_FILENO) == -1)
-        {
-            print_sys_error("dup2 pipe left");
-            exit(EXIT_FAILURE);
-        }
-
-        close(pipefd[0]);
-        close(pipefd[1]);
-
         execvp(left->argv[0], left->argv);
         print_sys_error("execvp left");
         exit(EXIT_FAILURE);
     }
 
-    // second processus: ... | right
-    pid2 = fork();
-    if (pid2 == -1)
+    /* ---------- RIGHT ---------- */
+    if ((pid2 = fork()) == 0)
     {
-        print_sys_error("fork");
+        dup2(pipefd[0], STDIN_FILENO);
         close(pipefd[0]);
         close(pipefd[1]);
-        return errno;
-    }
-
-    if (pid2 == 0)
-    {
-        // input comes from the pipe
-        if (dup2(pipefd[0], STDIN_FILENO) == -1)
-        {
-            print_sys_error("dup2 pipe right");
-            exit(EXIT_FAILURE);
-        }
-
-        close(pipefd[0]);
-        close(pipefd[1]);
-
-        // redirection of the output if specified for the right command: ... | grep > out.txt
-        if (right->output_file)
-        {
-            int flags = O_WRONLY | O_CREAT |
-                        (right->append_output ? O_APPEND : O_TRUNC);
-            int fd_out = open(right->output_file, flags, 0644);
-            if (fd_out == -1)
-            {
-                print_sys_error("open output");
-                exit(EXIT_FAILURE);
-            }
-            if (dup2(fd_out, STDOUT_FILENO) == -1)
-            {
-                print_sys_error("dup2 output");
-                close(fd_out);
-                exit(EXIT_FAILURE);
-            }
-            close(fd_out);
-        }
-
         execvp(right->argv[0], right->argv);
         print_sys_error("execvp right");
         exit(EXIT_FAILURE);
@@ -271,7 +203,7 @@ static int execute_pipe(command_t *left, command_t *right)
     close(pipefd[0]);
     close(pipefd[1]);
 
-    waitpid(pid1, &status1, 0);
+    waitpid(pid1, NULL, 0);
     waitpid(pid2, &status2, 0);
 
     if (WIFEXITED(status2))
@@ -295,24 +227,22 @@ int execute_command(sequence_t *seq)
         return execute_builtin(&seq->commands[0]);
     }
 
-    for (int i = 0; i < seq->count; ++i)
+    for (int i = 0; i < seq->count; i++)
     {
 
         if (i > 0)
         {
-            logical_operator_t op_prev = seq->operators[i - 1];
-
-            if (op_prev == LOGICAL_AND && last_status != 0)
+            logical_operator_t prev = seq->operators[i - 1];
+            if (prev == LOGICAL_AND && last_status != 0)
                 continue;
-            if (op_prev == LOGICAL_OR && last_status == 0)
+            if (prev == LOGICAL_OR && last_status == 0)
                 continue;
         }
 
-        logical_operator_t op = (i < seq->count - 1)
-                                    ? seq->operators[i]
-                                    : LOGICAL_NONE;
+        logical_operator_t op =
+            (i < seq->count - 1) ? seq->operators[i] : LOGICAL_NONE;
 
-        if (op == LOGICAL_PIPE && i + 1 < seq->count)
+        if (op == LOGICAL_PIPE)
         {
             last_status = execute_pipe(&seq->commands[i],
                                        &seq->commands[i + 1]);

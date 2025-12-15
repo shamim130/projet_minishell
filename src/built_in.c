@@ -19,6 +19,7 @@
 #include "../include/typedef.h"
 #include "../include/error.h"
 #include "../include/built_in.h"
+#include "../include/alias.h"
 #ifndef PATH_MAX
 #define PATH_MAX 4096
 #endif
@@ -35,6 +36,7 @@ int is_builtin(command_t *cmd)
         strcmp(cmd->argv[0], "pwd_sys") == 0 ||
         strcmp(cmd->argv[0], "exit") == 0 ||
         strcmp(cmd->argv[0], "echo") == 0 ||
+        strcmp(cmd->argv[0], "alias") == 0 ||
         strcmp(cmd->argv[0], "echo_sys") == 0 ||
         strcmp(cmd->argv[0], "ls_mon_shell") == 0);
 }
@@ -198,9 +200,35 @@ int execute_builtin(command_t *cmd)
     }
     if (strcmp(cmd->argv[0], "echo") == 0)
         return builtin_echo(cmd);
+    if (strcmp(cmd->argv[0], "alias") == 0)
+        return builtin_alias(cmd);
     if (strcmp(cmd->argv[0], "ls_mon_shell") == 0)
 
         return builtin_ls(cmd);
 
+    return 0;
+}
+
+int builtin_alias(command_t *cmd)
+{
+    if (cmd->argc == 1)
+    {
+        alias_print_all();
+        return 0;
+    }
+
+    // format: alias ll=ls
+    char *eq = strchr(cmd->argv[1], '=');
+    if (!eq)
+    {
+        fprintf(stderr, "alias: format invalide\n");
+        return 1;
+    }
+
+    *eq = '\0';
+    char *name = cmd->argv[1];
+    char *value = eq + 1;
+
+    alias_set(name, value);
     return 0;
 }

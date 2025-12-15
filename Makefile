@@ -4,7 +4,7 @@ LDFLAGS = -fprofile-arcs -ftest-coverage
 
 NAME    = bin/my_shell
 
-SRC     = src/main.c src/shell.c src/error.c src/parser.c src/executer.c src/built_in.c src/history.c 
+SRC     = src/main.c src/shell.c src/error.c src/parser.c src/executer.c src/built_in.c src/history.c src/alias.c
 OBJ     = $(SRC:.c=.o)
 
 all: $(NAME)

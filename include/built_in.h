@@ -28,4 +28,7 @@ int is_builtin(command_t *cmd);
  */
 int execute_builtin(command_t *cmd);
 
+int builtin_alias(command_t *cmd);
+
+
 #endif
