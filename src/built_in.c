@@ -19,6 +19,7 @@
 #include "../include/typedef.h"
 #include "../include/error.h"
 #include "../include/built_in.h"
+#include "../include/alias.h"
 #ifndef PATH_MAX
 #define PATH_MAX 4096
 #endif
@@ -36,7 +37,9 @@ int is_builtin(command_t *cmd)
         strcmp(cmd->argv[0], "exit") == 0 ||
         strcmp(cmd->argv[0], "echo") == 0 ||
         strcmp(cmd->argv[0], "echo_sys") == 0 ||
-        strcmp(cmd->argv[0], "ls_mon_shell") == 0);
+        strcmp(cmd->argv[0], "ls_mon_shell") == 0 ||
+        strcmp(cmd->argv[0], "alias") == 0  ||
+        strcmp(cmd->argv[0], "unalias") == 0 );
 }
 
 /**
@@ -85,14 +88,15 @@ static int builtin_cd(command_t *cmd)
     const char *path = NULL;
     char current_dir[PATH_MAX];
 
-    /* getting the current working directory */
+
+    // get the current directory
     if (!getcwd(current_dir, sizeof(current_dir)))
     {
         print_sys_error("getcwd");
         return errno;
     }
 
-    /* no argument : go to HOME */
+    // no argument : go to HOME directory
     if (cmd->argc < 2)
     {
         path = getenv("HOME");
@@ -177,6 +181,70 @@ static int builtin_echo(command_t *cmd)
     return 0;
 }
 
+/**
+ * @brief implementation of the built-in command 'alias' for defining command aliases
+ *
+ * @param cmd The command to execute
+ * @return (int) The exit status of the command
+ */
+static int builtin_alias(command_t *cmd)
+{
+    if (cmd->argc < 3)
+    {
+        fprintf(stderr, "usage: alias name command...\n");
+        errno = EINVAL;
+        return 1;
+    }
+
+    char value[256] = {0};
+
+    // concatenate command arguments into a single string
+    for (int i = 2; i < cmd->argc; i++)
+    {
+        strcat(value, cmd->argv[i]);
+        if (i < cmd->argc - 1)
+            strcat(value, " ");
+    }
+
+    alias_add(cmd->argv[1], value);
+    return 0;
+}
+
+static int builtin_alias_list(void)
+{
+    for (int i = 0; i < alias_count; i++)
+        printf("alias %s='%s'\n", aliases[i].name, aliases[i].value);
+    return 0;
+}
+
+/**
+ * @brief implementation of the built-in command 'unalias' for removing command aliases
+ *
+ * @param cmd The command to execute
+ * @return (int) The exit status of the command
+ */
+static int builtin_unalias(command_t *cmd)
+{
+    if (cmd->argc != 2) {
+        fprintf(stderr, "usage: unalias name\n");
+        errno = EINVAL;
+        return 1;
+    }
+
+    for (int i = 0; i < alias_count; i++) {
+        if (strcmp(aliases[i].name, cmd->argv[1]) == 0) {
+            for (int j = i; j < alias_count - 1; j++)
+                aliases[j] = aliases[j + 1];
+            alias_count--;
+            return 0;
+        }
+    }
+
+    fprintf(stderr, "unalias: %s: not found\n", cmd->argv[1]);
+    errno = ENOENT;
+    return 1;
+}
+
 int execute_builtin(command_t *cmd)
 {
     if (strcmp(cmd->argv[0], "cd") == 0)
@@ -201,6 +269,16 @@ int execute_builtin(command_t *cmd)
     if (strcmp(cmd->argv[0], "ls_mon_shell") == 0)
 
         return builtin_ls(cmd);
+    if (strcmp(cmd->argv[0], "alias") == 0)
+    {
+        if (cmd->argc == 1)
+            return builtin_alias_list();
+        return builtin_alias(cmd);
+    }
+
+    if (strcmp(cmd->argv[0], "unalias") == 0)
+    return builtin_unalias(cmd);
+
 
     return 0;
 }

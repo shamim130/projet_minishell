@@ -13,6 +13,7 @@
 #include "../include/executer.h"
 #include "../include/parser.h"
 #include "../include/history.h"
+#include "../include/alias.h"
 #include <string.h>
 
 int main(int argc, char *argv[])
@@ -45,6 +46,7 @@ int main(int argc, char *argv[])
 
         history_append(line);
 
+        alias_expand(line, sizeof(line));
         if (parse_command(line, &seq) < 0)
             continue;
 
